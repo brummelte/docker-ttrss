@@ -5,6 +5,9 @@ $confpath = '/var/www/config.php';
 
 $config = array();
 
+// Change the path
+$config['VIRTUAL_HOST'] = getenv('VIRTUAL_HOST') ?: 'http://localhost';
+
 if (getenv('DB_TYPE') !== false) {
     $config['DB_TYPE'] = getenv('DB_TYPE');
 } elseif (getenv('DB_PORT_5432_TCP_ADDR') !== false) {
@@ -60,7 +63,7 @@ if (!dbcheck($config)) {
     $super['DB_NAME'] = null;
     $super['DB_USER'] = env('DB_ENV_USER', 'docker');
     $super['DB_PASS'] = env('DB_ENV_PASS', $super['DB_USER']);
-    
+
     $pdo = dbconnect($super);
 
     if ($super['DB_TYPE'] === 'mysql') {
@@ -72,7 +75,7 @@ if (!dbcheck($config)) {
     }
 
     unset($pdo);
-    
+
     if (dbcheck($config)) {
         echo 'Database login created and confirmed' . PHP_EOL;
     } else {
@@ -106,11 +109,11 @@ file_put_contents($confpath, $contents);
 function env($name, $default = null)
 {
     $v = getenv($name) ?: $default;
-    
+
     if ($v === null) {
         error('The env ' . $name . ' does not exist');
     }
-    
+
     return $v;
 }
 
@@ -144,4 +147,3 @@ function dbcheck($config)
         return false;
     }
 }
-

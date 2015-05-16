@@ -13,11 +13,10 @@ ADD ttrss.nginx.conf /etc/nginx/sites-available/ttrss
 RUN ln -s /etc/nginx/sites-available/ttrss /etc/nginx/sites-enabled/ttrss
 RUN rm /etc/nginx/sites-enabled/default
 
-# install ttrss and patch configuration
-RUN git clone https://github.com/gothfox/Tiny-Tiny-RSS.git /var/www
+# install ttrss
+RUN git clone https://github.com/brummelte/Tiny-Tiny-RSS.git /var/www
 WORKDIR /var/www
 RUN cp config.php-dist config.php
-RUN sed -i -e "/'SELF_URL_PATH'/s/ '.*'/ 'http:\/\/localhost\/'/" config.php
 RUN chown www-data:www-data -R /var/www
 
 # expose only nginx HTTP port
@@ -32,4 +31,3 @@ ENV DB_PASS ttrss
 ADD configure-db.php /configure-db.php
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD php /configure-db.php && supervisord -c /etc/supervisor/conf.d/supervisord.conf
-
