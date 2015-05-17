@@ -6,7 +6,7 @@ $confpath = '/var/www/config.php';
 $config = array();
 
 // Change the path
-$config['SELF_URL_PATH'] = getenv('VIRTUAL_HOST') ?: 'http://localhost';
+$config['SELF_URL_PATH'] = env('VIRTUAL_HOST', 'http://localhost');
 
 if (getenv('DB_TYPE') !== false) {
     $config['DB_TYPE'] = getenv('DB_TYPE');
@@ -21,13 +21,13 @@ if (getenv('DB_TYPE') !== false) {
 }
 
 if (!empty($eport)) {
-    $config['DB_HOST'] = env('DB_PORT_' . $eport . '_TCP_ADDR');
+    $config['DB_HOST'] = 'DB';
     $config['DB_PORT'] = env('DB_PORT_' . $eport . '_TCP_PORT');
 } elseif (getenv('DB_PORT') === false) {
     error('The env DB_PORT does not exist. Make sure to run with "--link mypostgresinstance:DB"');
 } elseif (is_numeric(getenv('DB_PORT')) && getenv('DB_HOST') !== false) {
     // numeric DB_PORT provided; assume port number passed directly
-    $config['DB_HOST'] = env('DB_HOST');
+    $config['DB_HOST'] = 'DB';
     $config['DB_PORT'] = env('DB_PORT');
 
     if (empty($config['DB_TYPE'])) {
