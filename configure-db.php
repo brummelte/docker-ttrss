@@ -125,8 +125,8 @@ function error($text)
 
 function dbconnect($config)
 {
-    $map = array('host' => 'HOST', 'port' => 'PORT', 'dbname' => 'NAME');
-    $dsn = $config['DB_TYPE'] . ':';
+    $map = array('port' => 'PORT', 'dbname' => 'NAME');
+    $dsn = $config['DB_TYPE'] . ':host=DB;';
     foreach ($map as $d => $h) {
         if (isset($config['DB_' . $h])) {
             $dsn .= $d . '=' . $config['DB_' . $h] . ';';
