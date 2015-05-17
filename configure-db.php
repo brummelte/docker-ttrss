@@ -6,7 +6,7 @@ $confpath = '/var/www/config.php';
 $config = array();
 
 // Change the path
-$config['VIRTUAL_HOST'] = getenv('VIRTUAL_HOST') ?: 'http://localhost';
+$config['SELF_URL_PATH'] = getenv('VIRTUAL_HOST') ?: 'http://localhost';
 
 if (getenv('DB_TYPE') !== false) {
     $config['DB_TYPE'] = getenv('DB_TYPE');

@@ -19,6 +19,9 @@ WORKDIR /var/www
 RUN cp config.php-dist config.php
 RUN chown www-data:www-data -R /var/www
 
+# Default address
+ENV VIRTUAL_HOST http://localhost
+
 # expose only nginx HTTP port
 EXPOSE 80
 
